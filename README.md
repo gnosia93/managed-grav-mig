@@ -1,8 +1,19 @@
 # database-on-grv
 
 
+* RDS
+* ElastiCache Redis OSS
+* Kafka
+* Open Search ..
 
 
+--
+
+* 1. 그라비톤 일반론   
+  2. 마이그레이션 방법론   
+  3. 성능 측정   
+  4. 트러블 슈팅 ???     
+ 
 
 
 ## reference ##
