@@ -7,7 +7,11 @@
 * Open Search ..
 
 
---
+---
+
+* mysql bench mark - https://dev.mysql.com/downloads/benchmarks.html
+
+---
 
 * 1. 그라비톤 일반론   
   2. 마이그레이션 방법론   
@@ -22,3 +26,4 @@
 
 * https://catalog.workshops.aws/graviton/en-US/amazonrds/02-upgrade
 * https://www.dragonflydb.io/guides/elasticache-node-instance-types
+
