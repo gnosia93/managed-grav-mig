@@ -3,6 +3,8 @@
 
 
 --- 
+* https://aws.amazon.com/blogs/infrastructure-and-automation/use-aws-cdk-to-initialize-amazon-rds-instances/
+
 
 
 * https://github.com/aws-samples/aws-cdk-examples/tree/main/python/rds
