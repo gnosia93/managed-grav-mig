@@ -24,8 +24,7 @@ $ cdk --version
 ```
 $ mkdir rds-gravition && cd rds-gravition
 
-$
-
+$ cdk init --language typescript
 ```
 
 
