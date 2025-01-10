@@ -40,7 +40,7 @@ new RdsStack(app, 'RdsStack', {
   env: { account: '<aws-account-number>', region: 'ap-northeast-2' },
 });
 ```
-<aws-account-number> 를 수정한다. 
+ `<aws-account-number>` 를 수정한다. 
 
 
 [lib/rds-stack.ts]
