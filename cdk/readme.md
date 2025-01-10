@@ -1,6 +1,16 @@
 
-1. node.js 를 설치한다. https://nodejs.org/ko/download
+#### 1. node.js 를 설치한다. https://nodejs.org/ko/download ####
 
+
+#### 2. 설치 버전을 확인한다. ####
+
+```
+$  node -v
+v22.13.0
+
+$ npm -v
+10.9.2
+```
 
 
 
