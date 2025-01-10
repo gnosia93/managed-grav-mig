@@ -1,3 +1,4 @@
+타입스크립트용 cdk 이용하여 인프라를 빌드합니다.
 
 #### 1. https://nodejs.org/ko/download 로 방문하여 node.js 를 설치한다. ####
 
