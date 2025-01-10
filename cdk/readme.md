@@ -75,7 +75,7 @@ export class RdsStack extends cdk.Stack {
         version: MysqlEngineVersion.VER_8_0
       }),
       instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE)
-    })
+    });
 
   }
 }
