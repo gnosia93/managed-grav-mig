@@ -14,7 +14,7 @@ $ npm -v
 
 #### 3. cdk 를 설치한다. ####
 ```
-$ npm install -g aws-cdk
+$ sudo npm install -g aws-cdk
 ```
 
 
