@@ -1,5 +1,5 @@
 
-#### 1. node.js 를 설치한다. https://nodejs.org/ko/download ####
+#### 1. https://nodejs.org/ko/download 로 방문하여 node.js 를 설치한다. ####
 
 
 #### 2. 설치 버전을 확인한다. ####
