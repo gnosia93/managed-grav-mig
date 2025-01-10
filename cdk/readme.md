@@ -54,12 +54,29 @@ export class RdsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    new ec2.Vpc(this, 'RdsVpc', {
+    const vpc = new ec2.Vpc(this, 'RdsVpc', {
       maxAzs: 4,
       vpcName: 'RdsVpc',
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
       natGateways: 0
     });
+
+    const aurora = new DatabaseInstance(this, 'auroraRds', {
+      vpcSubnets: {
+        onePerAz: true,
+        subnetType: SubnetType.PRIVATE_ISOLATED
+      },
+      vpc: vpc,
+      port: 3306,
+      databaseName: 'main',
+      allocatedStorage: 20,
+      instanceIdentifier,
+      engine: DatabaseInstanceEngine.mysql({
+        version: MysqlEngineVersion.VER_8_0
+      }),
+      instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE)
+    })
+
   }
 }
 ```
