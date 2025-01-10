@@ -22,7 +22,7 @@ $ cdk --version
 
 #### 4. cdk 프로젝트를 생성한다. ####
 ```
-$ mkdir rds-gravition && cd rds-gravition
+$ mkdir rds && cd rds
 
 $ cdk init --language typescript
 ```
@@ -61,10 +61,7 @@ export class RdsStack extends cdk.Stack {
     });
   }
 }
-
 ```
-
-
 
 
 ## 레퍼런스 ##
