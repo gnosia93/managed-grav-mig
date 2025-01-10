@@ -20,6 +20,13 @@ $ cdk --version
 2.175.0 (build 703e81f) 
 ```
 
+#### 4. cdk 프로젝트를 생성한다. ####
+```
+$ mkdir rds-gravition && cd rds-gravition
+
+$
+
+```
 
 
 
