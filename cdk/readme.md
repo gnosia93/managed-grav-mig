@@ -1,3 +1,12 @@
+
+1. node.js 를 설치한다. https://nodejs.org/ko/download
+
+
+
+
+
+## 레퍼런스 ##
+
 * cdk - https://ongamedev.tistory.com/486
 * vpc - https://ongamedev.tistory.com/487
 
