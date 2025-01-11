@@ -181,7 +181,7 @@ export class RdsStack extends cdk.Stack {
 ```
 $ cdk bootstrap
 
-$ cdk deploy 
+$ cdk deploy --require-approval never
 ```
 
 
