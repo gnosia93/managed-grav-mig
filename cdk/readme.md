@@ -95,3 +95,4 @@ $ cdk deploy
 * https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 * https://www.typescriptlang.org/docs/handbook/intro.html
 * https://ultimatecourses.com/blog/typescript-classes-and-constructors
+* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib-readme.html
