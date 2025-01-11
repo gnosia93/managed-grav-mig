@@ -49,15 +49,16 @@ new RdsStack(app, 'RdsStack', {
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as rds from 'aws-cdk-lib/aws-rds';
 
 export class RdsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
     /* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2-readme.html */
-    const vpc = new ec2.Vpc(this, 'graviton', {
+    const vpc = new ec2.Vpc(this, 'grav-vpc', {
       maxAzs: 3,
-      vpcName: 'graviton',
+      vpcName: 'grav-vpc',
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
       natGateways: 0,      
       enableDnsHostnames: true,
@@ -67,15 +68,103 @@ export class RdsStack extends cdk.Stack {
       subnetConfiguration: [
         {
           cidrMask: 24,
-          name: 'public',
+          name: 'grav-public',
           subnetType: ec2.SubnetType.PUBLIC,
         },
         {
           cidrMask: 24,
-          name: 'private',
-          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+          name: 'grav-private',
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
         }
       ]
+    });
+
+
+    const ec2SecurityGroup = new ec2.SecurityGroup(this, "grav-ec2-sg", {
+      vpc: vpc,
+      allowAllOutbound: true,
+      description: 'ec2 security group'
+    });
+
+    ec2SecurityGroup.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.SSH, 
+      'allow ssh port inbound from anywhere'
+    );
+
+    /* ec2 - 
+     * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.Instance.html 
+     * https://loige.co/provision-ubuntu-ec2-with-cdk/ 
+     */
+    const ec2instance = new ec2.Instance(this, "grav-ec2", {
+      vpc: vpc,
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.COMPUTE7_GRAVITON3, ec2.InstanceSize.XLARGE2),
+      machineImage: new ec2.AmazonLinuxImage({ generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2023 }),
+      securityGroup: ec2SecurityGroup,
+      associatePublicIpAddress: true,
+      instanceName: 'grav-ec2-instance',
+      keyPair: ec2.KeyPair.fromKeyPairAttributes(this, 'aws-kp-2', {keyPairName: 'aws-kp-2'}),
+      vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC }
+    });
+
+
+    /* security group - https://github.com/bobbyhadz/aws-cdk-security-group-example/blob/cdk-v2/lib/cdk-starter-stack.ts */
+    const rdsSecurityGroup = new ec2.SecurityGroup(this, "grav-rds-sg", {
+      vpc: vpc,
+      allowAllOutbound: true,
+      description: 'database security group'
+    });
+
+    rdsSecurityGroup.addIngressRule(
+      ec2.Peer.anyIpv4(),
+      ec2.Port.tcp(3306),
+      'allow inbound for 3306 port'
+    )
+
+    /* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds-readme.html */  
+    const cluster = new rds.DatabaseCluster(this, 'grav-aurora-cluster', {
+      
+      clusterIdentifier: "grav-aurora-cluster",
+      engine: rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_08_0 }),
+      securityGroups: [ rdsSecurityGroup ],
+      
+      /* https://stackoverflow.com/questions/70974077/is-there-a-way-to-set-the-default-password-while-making-rds-by-cdk */
+      credentials: rds.Credentials.fromPassword("admin", cdk.SecretValue.unsafePlainText("mysql-admin")), 
+      
+      /*
+       * db.r6i.xlarge : 4 vCPUs, 32GiB RAM, 10Gbps
+       */
+      writer: rds.ClusterInstance.provisioned('grav-aurora-1', {
+        instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
+        instanceIdentifier : "grav-aurora-1",
+        enablePerformanceInsights: true,
+      }),
+      readers: [
+        // will be put in promotion tier 1 and will scale with the writer
+        rds.ClusterInstance.provisioned('grav-aurora-2', {
+          instanceIdentifier: 'grav-aurora-2',
+          instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
+          enablePerformanceInsights: true,
+        }),
+        rds.ClusterInstance.provisioned('grav-aurora-3', {
+          instanceIdentifier: 'grav-aurora-3',
+          instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
+          enablePerformanceInsights: true,
+        })
+      ],
+      vpc: vpc,
+      subnetGroup: new rds.SubnetGroup(this, 'grav-db-subnet-grp', {
+        description: 'grav-db-subnet-grp',
+        vpc: vpc,
+      
+        // the properties below are optional
+        removalPolicy: cdk.RemovalPolicy.DESTROY,
+        subnetGroupName: 'grav-db-subnet-grp',
+        vpcSubnets: {
+          onePerAz: true,
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+        },
+      })
     });
 
   }
