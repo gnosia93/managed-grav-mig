@@ -9,7 +9,7 @@
 * [4. 성능 관찰하기]()
 
 
-## 기타 ##
+### 기타 ###
 * ElastiCache Redis OSS
 * Kafka
 * Open Search ..
