@@ -61,22 +61,11 @@ export class RdsStack extends cdk.Stack {
       natGateways: 0
     });
 
-    const aurora = new DatabaseInstance(this, 'auroraRds', {
-      vpcSubnets: {
-        onePerAz: true,
-        subnetType: SubnetType.PRIVATE_ISOLATED
-      },
-      vpc: vpc,
-      port: 3306,
-      databaseName: 'main',
-      allocatedStorage: 20,
-      instanceIdentifier,
-      engine: DatabaseInstanceEngine.mysql({
-        version: MysqlEngineVersion.VER_8_0
-      }),
-      instanceType: InstanceType.of(InstanceClass.T2, InstanceSize.LARGE)
-    });
 
+/*
+ * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds-readme.html
+ */ 
+   
   }
 }
 ```
