@@ -147,7 +147,7 @@ export class RdsStack extends cdk.Stack {
 
 
     /* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds-readme.html */  
-    const cluster = new rds.DatabaseCluster(this, 'grav-aurora-cluster', {
+    const auroraCluster = new rds.DatabaseCluster(this, 'grav-aurora-cluster', {
       
       clusterIdentifier: "grav-aurora-cluster",
       engine: rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_08_0 }),
@@ -171,16 +171,19 @@ export class RdsStack extends cdk.Stack {
       writer: rds.ClusterInstance.provisioned('grav-aurora-1', {
         instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
         instanceIdentifier : "grav-aurora-1",
+        enablePerformanceInsights: true, 
       }),
       readers: [
         // will be put in promotion tier 1 and will scale with the writer
         rds.ClusterInstance.provisioned('grav-aurora-2', {
           instanceIdentifier: 'grav-aurora-2',
           instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
+          enablePerformanceInsights: true, 
         }),
         rds.ClusterInstance.provisioned('grav-aurora-3', {
           instanceIdentifier: 'grav-aurora-3',
           instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
+          enablePerformanceInsights: true, 
         })
       ],
       vpc: vpc,
@@ -189,7 +192,7 @@ export class RdsStack extends cdk.Stack {
 
 
     /* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds.DatabaseInstance.html */
-    const gp3Instance = new rds.DatabaseInstance(this, 'grav-mysql-multiAz', {
+    const mysqlRds = new rds.DatabaseInstance(this, 'grav-mysql-multiAz', {
       engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_4_3 }),
       instanceIdentifier : "grav-mysql-multiAz",
       instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
@@ -201,10 +204,25 @@ export class RdsStack extends cdk.Stack {
       multiAz: true,
       removalPolicy: cdk.RemovalPolicy.DESTROY,      
       securityGroups: [ rdsSecurityGroup ],
-      enablePerformanceInsights: true,       
+      enablePerformanceInsights: true,   
+      backupRetention: cdk.Duration.days(0)
     });
 
+
+    /*
+     * cdk output
+     */
+    new cdk.CfnOutput(this, 'ecs-public-ip', {
+      value: ec2instance.instancePublicIp
+    })
+    new cdk.CfnOutput(this, 'aurora-writer/reader-endpoint', {
+      value: auroraCluster.clusterEndpoint.hostname + " / " + auroraCluster.clusterReadEndpoint.hostname
+    })
+    new cdk.CfnOutput(this, 'mysql-multiAz-endpoint', {
+      value: mysqlRds.dbInstanceEndpointAddress
+    })
   }
+
 }
 
 ```
