@@ -200,8 +200,13 @@ $ ssh -i aws-kp-2.pem ec2-user@54.180.232.232
 
 $ sudo dnf install -y mariadb105
 $ mysql --version
-
 ```
+auroa 클러스터의 writer 엔드포인트에 로그인하여 정상 동작 유무를 확인한다. 
+```
+$ mysql -h grav-aurora-cluster.cluster-czed7onsq5sy.ap-northeast-2.rds.amazonaws.com -u admin -p
+```
+
+
 
 
 
