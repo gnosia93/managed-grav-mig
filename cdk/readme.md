@@ -98,7 +98,7 @@ export class RdsStack extends cdk.Stack {
      */
     const ec2instance = new ec2.Instance(this, "grav-ec2", {
       vpc: vpc,
-      instanceType: ec2.InstanceType.of(ec2.InstanceClass.COMPUTE7_GRAVITON3, ec2.InstanceSize.XLARGE2),
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.COMPUTE7_INTEL, ec2.InstanceSize.XLARGE2),
       machineImage: new ec2.AmazonLinuxImage({ generation: ec2.AmazonLinuxGeneration.AMAZON_LINUX_2023 }),
       securityGroup: ec2SecurityGroup,
       associatePublicIpAddress: true,
