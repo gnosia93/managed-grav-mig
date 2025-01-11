@@ -194,7 +194,8 @@ $ cdk bootstrap
 $ cdk deploy --require-approval never
 ```
 
-#### 7. ec2 로그인하기 ####
+#### 7. mysql 클라이언트 설치하기 ####
+* https://velog.io/@joo_oonu/Amazon-Linux-2023-MySQL-%EC%84%A4%EC%B9%98
 ```
 $ ssh -i aws-kp-2.pem ec2-user@54.180.232.232
 ```
