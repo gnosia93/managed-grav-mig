@@ -50,6 +50,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as rds from 'aws-cdk-lib/aws-rds';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export class RdsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -81,6 +82,7 @@ export class RdsStack extends cdk.Stack {
 
 
     const ec2SecurityGroup = new ec2.SecurityGroup(this, "grav-ec2-sg", {
+      securityGroupName: "grav-ec2-sg", 
       vpc: vpc,
       allowAllOutbound: true,
       description: 'ec2 security group'
@@ -95,6 +97,8 @@ export class RdsStack extends cdk.Stack {
     /* ec2 - 
      * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.Instance.html 
      * https://loige.co/provision-ubuntu-ec2-with-cdk/ 
+     * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.ManagedPolicy.html
+     * simple system manager's role binding - AmazonSSMManagedInstanceCore
      */
     const ec2instance = new ec2.Instance(this, "grav-ec2", {
       vpc: vpc,
@@ -104,12 +108,17 @@ export class RdsStack extends cdk.Stack {
       associatePublicIpAddress: true,
       instanceName: 'grav-ec2-instance',
       keyPair: ec2.KeyPair.fromKeyPairAttributes(this, 'aws-kp-2', {keyPairName: 'aws-kp-2'}),
-      vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC }
+      vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      role: new iam.Role(this, 'grav-iam-role', {
+        assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
+        managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')]
+      })
     });
 
 
     /* security group - https://github.com/bobbyhadz/aws-cdk-security-group-example/blob/cdk-v2/lib/cdk-starter-stack.ts */
     const rdsSecurityGroup = new ec2.SecurityGroup(this, "grav-rds-sg", {
+      securityGroupName: "grav-rds-sg",  
       vpc: vpc,
       allowAllOutbound: true,
       description: 'database security group'
@@ -175,6 +184,7 @@ export class RdsStack extends cdk.Stack {
 
   }
 }
+
 ```
 
 #### 6. 배포하기 ####
