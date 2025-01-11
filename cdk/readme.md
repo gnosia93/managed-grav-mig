@@ -194,6 +194,12 @@ $ cdk bootstrap
 $ cdk deploy --require-approval never
 ```
 
+#### 7. ec2 로그인하기 ####
+```
+$ ssh -i aws-kp-2.pem ec2-user@54.180.232.232
+```
+
+
 
 ## 레퍼런스 ##
 
