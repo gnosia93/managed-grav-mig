@@ -212,8 +212,8 @@ export class RdsStack extends cdk.Stack {
     /*
      * cdk output
      */
-    new cdk.CfnOutput(this, 'mysql-endpoint', {
-      exportName: 'mysql-endpoint',
+    new cdk.CfnOutput(this, 'ec2-public-ip', {
+      exportName: 'ec2-public-ip',
       value: ec2instance.instancePublicIp
     })
     new cdk.CfnOutput(this, 'aurora-writer-endpoint', {
