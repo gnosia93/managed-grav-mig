@@ -129,6 +129,14 @@ export class RdsStack extends cdk.Stack {
       securityGroups: [ rdsSecurityGroup ],
       enablePerformanceInsights: true, 
       
+      /* 
+       * To delete an RDS instance in AWS CDK without creating a backup, 
+       * set the removalPolicy property of your RDS construct to cdk.RemovalPolicy.DESTROY 
+       * which explicitly instructs CDK to delete the resource without retaining any backups; 
+       * essentially forcing a deletion without considering existing backups. 
+       */
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      
       /* https://stackoverflow.com/questions/70974077/is-there-a-way-to-set-the-default-password-while-making-rds-by-cdk */
       credentials: rds.Credentials.fromPassword("admin", cdk.SecretValue.unsafePlainText("mysql-admin")), 
       
@@ -167,7 +175,6 @@ export class RdsStack extends cdk.Stack {
 
   }
 }
-
 ```
 
 #### 6. 배포하기 ####
