@@ -81,6 +81,11 @@ export class RdsStack extends cdk.Stack {
 }
 ```
 
+#### 6. 배포하기 ####
+```
+$ cdk deploy 
+```
+
 
 ## 레퍼런스 ##
 
