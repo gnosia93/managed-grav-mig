@@ -23,7 +23,7 @@ $ cdk --version
 
 #### 4. cdk 프로젝트를 생성한다. ####
 ```
-$ mkdir rds && cd rds
+$ mkdir graviton && cd graviton
 
 $ cdk init --language typescript
 ```
