@@ -117,7 +117,7 @@ export class RdsStack extends cdk.Stack {
 
     rdsSecurityGroup.addIngressRule(
       ec2.Peer.anyIpv4(),
-      ec2.Port.tcp(3306),
+      ec2.Port.MYSQL_AURORA,
       'allow inbound for 3306 port'
     )
 
@@ -127,6 +127,7 @@ export class RdsStack extends cdk.Stack {
       clusterIdentifier: "grav-aurora-cluster",
       engine: rds.DatabaseClusterEngine.auroraMysql({ version: rds.AuroraMysqlEngineVersion.VER_3_08_0 }),
       securityGroups: [ rdsSecurityGroup ],
+      enablePerformanceInsights: true, 
       
       /* https://stackoverflow.com/questions/70974077/is-there-a-way-to-set-the-default-password-while-making-rds-by-cdk */
       credentials: rds.Credentials.fromPassword("admin", cdk.SecretValue.unsafePlainText("mysql-admin")), 
@@ -137,19 +138,16 @@ export class RdsStack extends cdk.Stack {
       writer: rds.ClusterInstance.provisioned('grav-aurora-1', {
         instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
         instanceIdentifier : "grav-aurora-1",
-        enablePerformanceInsights: true,
       }),
       readers: [
         // will be put in promotion tier 1 and will scale with the writer
         rds.ClusterInstance.provisioned('grav-aurora-2', {
           instanceIdentifier: 'grav-aurora-2',
           instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
-          enablePerformanceInsights: true,
         }),
         rds.ClusterInstance.provisioned('grav-aurora-3', {
           instanceIdentifier: 'grav-aurora-3',
           instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
-          enablePerformanceInsights: true,
         })
       ],
       vpc: vpc,
