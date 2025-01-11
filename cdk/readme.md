@@ -212,19 +212,21 @@ export class RdsStack extends cdk.Stack {
     /*
      * cdk output
      */
-    new cdk.CfnOutput(this, 'ecs-public-ip', {
+    new cdk.CfnOutput(this, 'ec2-public-ip', {
+      exportName: 'ec2PublicIp',
       value: ec2instance.instancePublicIp
     })
-    new cdk.CfnOutput(this, 'aurora-writer/reader-endpoint', {
+    new cdk.CfnOutput(this, 'aurora-writer-reader-endpoint', {
+      exportName: 'auroraWriterReaderEndpoint',
       value: auroraCluster.clusterEndpoint.hostname + " / " + auroraCluster.clusterReadEndpoint.hostname
     })
     new cdk.CfnOutput(this, 'mysql-multiAz-endpoint', {
+      exportName: 'mysqlMultiAzEndpoint',
       value: mysqlRds.dbInstanceEndpointAddress
     })
   }
 
 }
-
 ```
 
 #### 6. 배포하기 ####
