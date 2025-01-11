@@ -238,3 +238,4 @@ $ mysql -h grav-aurora-cluster.cluster-czed7onsq5sy.ap-northeast-2.rds.amazonaws
 * https://www.typescriptlang.org/docs/handbook/intro.html
 * https://ultimatecourses.com/blog/typescript-classes-and-constructors
 * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib-readme.html
+* https://blog.mikaeels.com/how-to-use-outputs-in-aws-cdk
