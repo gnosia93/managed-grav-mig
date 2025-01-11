@@ -54,20 +54,33 @@ export class RdsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const vpc = new ec2.Vpc(this, 'RdsVpc', {
-      maxAzs: 4,
-      vpcName: 'RdsVpc',
+    /* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2-readme.html */
+    const vpc = new ec2.Vpc(this, 'graviton', {
+      maxAzs: 3,
+      vpcName: 'graviton',
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
-      natGateways: 0
+      natGateways: 0,      
+      enableDnsHostnames: true,
+      enableDnsSupport: true, 
+      createInternetGateway: true,
+
+      subnetConfiguration: [
+        {
+          cidrMask: 24,
+          name: 'public',
+          subnetType: ec2.SubnetType.PUBLIC,
+        },
+        {
+          cidrMask: 24,
+          name: 'private',
+          subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+        }
+      ]
     });
 
-
-/*
- * https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds-readme.html
- */ 
-   
   }
 }
+
 ```
 
 #### 6. 배포하기 ####
