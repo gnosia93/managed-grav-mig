@@ -91,8 +91,7 @@ $ cdk deploy
 
 
 ## 레퍼런스 ##
-* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.Vpc.html
-* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.Subnet.html
+
 * https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
-* https://aws.amazon.com/blogs/infrastructure-and-automation/use-aws-cdk-to-initialize-amazon-rds-instances/
 * https://www.typescriptlang.org/docs/handbook/intro.html
+* https://ultimatecourses.com/blog/typescript-classes-and-constructors
