@@ -205,7 +205,7 @@ auroa 클러스터의 writer 엔드포인트에 로그인하여 정상 동작 �
 ```
 $ mysql -h grav-aurora-cluster.cluster-czed7onsq5sy.ap-northeast-2.rds.amazonaws.com -u admin -p
 ```
-
+![](https://github.com/gnosia93/database-on-grv/blob/main/cdk/images/aurora-conn-1.png)
 
 
 
