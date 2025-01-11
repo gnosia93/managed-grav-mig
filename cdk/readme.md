@@ -220,8 +220,8 @@ export class RdsStack extends cdk.Stack {
       exportName: 'aurora-writer-endpoint',
       value: auroraCluster.clusterEndpoint.hostname 
     })
-    new cdk.CfnOutput(this, 'aurora-writer-reader-endpoint', {
-      exportName: 'aurora-writer-reader-endpoint',
+    new cdk.CfnOutput(this, 'aurora-reader-endpoint', {
+      exportName: 'aurora-reader-endpoint',
       value: auroraCluster.clusterReadEndpoint.hostname
     })
     new cdk.CfnOutput(this, 'mysql-endpoint', {
