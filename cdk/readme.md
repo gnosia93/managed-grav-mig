@@ -111,7 +111,8 @@ export class RdsStack extends cdk.Stack {
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
       role: new iam.Role(this, 'grav-iam-role', {
         assumedBy: new iam.ServicePrincipal('ec2.amazonaws.com'),
-        managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')]
+        managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSSMManagedInstanceCore')],
+        roleName: 'grav-iam-role'
       })
     });
 
@@ -128,7 +129,22 @@ export class RdsStack extends cdk.Stack {
       ec2.Peer.anyIpv4(),
       ec2.Port.MYSQL_AURORA,
       'allow inbound for 3306 port'
-    )
+    );
+
+    const rdsSubnetGroup = new rds.SubnetGroup(this, 'grav-db-subnet-grp', {
+      description: 'grav-db-subnet-grp',
+      vpc: vpc,
+    
+      // the properties below are optional
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      subnetGroupName: 'grav-db-subnet-grp',
+      vpcSubnets: {
+        onePerAz: true,
+        subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+      },
+    })
+
+
 
     /* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds-readme.html */  
     const cluster = new rds.DatabaseCluster(this, 'grav-aurora-cluster', {
@@ -168,18 +184,24 @@ export class RdsStack extends cdk.Stack {
         })
       ],
       vpc: vpc,
-      subnetGroup: new rds.SubnetGroup(this, 'grav-db-subnet-grp', {
-        description: 'grav-db-subnet-grp',
-        vpc: vpc,
-      
-        // the properties below are optional
-        removalPolicy: cdk.RemovalPolicy.DESTROY,
-        subnetGroupName: 'grav-db-subnet-grp',
-        vpcSubnets: {
-          onePerAz: true,
-          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
-        },
-      })
+      subnetGroup: rdsSubnetGroup
+    });
+
+
+    /* https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds.DatabaseInstance.html */
+    const gp3Instance = new rds.DatabaseInstance(this, 'grav-mysql-multiAz', {
+      engine: rds.DatabaseInstanceEngine.mysql({ version: rds.MysqlEngineVersion.VER_8_4_3 }),
+      instanceIdentifier : "grav-mysql-multiAz",
+      instanceType: ec2.InstanceType.of(ec2.InstanceClass.R6I, ec2.InstanceSize.XLARGE),
+      credentials: rds.Credentials.fromPassword("admin", cdk.SecretValue.unsafePlainText("mysql-admin")), 
+      subnetGroup: rdsSubnetGroup,
+      vpc: vpc,
+      allocatedStorage: 100,
+      storageType: rds.StorageType.GP3,
+      multiAz: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,      
+      securityGroups: [ rdsSecurityGroup ],
+      enablePerformanceInsights: true,       
     });
 
   }
