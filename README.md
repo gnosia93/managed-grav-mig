@@ -8,7 +8,7 @@
 * [4. 성능 관찰하기]()
 
 
-### ElastiCache Redis ###
+### ElastiCache ###
 * [1. Redis 프로비저닝 하기]
 * [2. 마이그레이션 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/1.redis-mig.md)
 
