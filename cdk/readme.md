@@ -30,21 +30,21 @@ $ cdk init --language typescript
 
 #### 5. 아래와 같이 코드를 수정한다. ####
 
-[bin/rds.ts]
+[bin/grav.ts]
 ```
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { RdsStack } from '../lib/rds-stack';
+import { GravStack } from '../lib/grav-stack';
 
 const app = new cdk.App();
-new RdsStack(app, 'RdsStack', {
+new GravStack(app, 'GravStack', {
   env: { account: '<aws-account-number>', region: 'ap-northeast-2' },
 });
 ```
  `<aws-account-number>` 값을 대상 AWS 어카운트로 수정한다. 
 
 
-[lib/rds-stack.ts]
+[lib/grv-stack.ts]
 ```
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -52,7 +52,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as rds from 'aws-cdk-lib/aws-rds';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
-export class RdsStack extends cdk.Stack {
+export class GravStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
