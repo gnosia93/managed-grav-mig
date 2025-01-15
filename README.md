@@ -1,6 +1,6 @@
 # managed-grv-mig
 
-### RDS ###
+### Aurora & RDS ###
 
 * [1. RDS 프로비저닝 하기](https://github.com/gnosia93/database-on-grv/tree/main/cdk)
 * [2. 그라비톤 성능 테스트 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/2.rds-perf.md)
