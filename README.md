@@ -3,9 +3,9 @@
 ### Aurora & RDS ###
 
 * [1. Aurora & RDS 프로비저닝 하기](https://github.com/gnosia93/database-on-grv/tree/main/cdk)
-* [2. 그라비톤 성능 테스트 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/2.rds-perf.md)
-* [3. 그라비톤으로 마이그레이션 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/3.rds-mig.md)
-* [4. 그라비톤 성능 관찰하기]()
+* [2. 성능 테스트 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/2.rds-perf.md)
+* [3. 마이그레이션 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/3.rds-mig.md)
+* [4. 성능 관찰하기]()
 
 
 ### ElastiCache Redis ###
