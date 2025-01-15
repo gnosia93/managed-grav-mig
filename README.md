@@ -16,7 +16,7 @@
 
 ### MSK  ###
 
-* [1. MSK 프로비저닝 하기]
+* [1. MSK 프로비저닝 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/1.msk-provision.md)
 * [2. 마이그레이션 하기]
 
 
