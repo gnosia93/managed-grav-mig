@@ -5,7 +5,7 @@ import time
 producer = KafkaProducer(
     acks=1,
     compression_type='gzip', 
-    bootstrap_servers=['localhost:9092'], 
+    bootstrap_servers=[ <KAFKA-BROKERS> ], 
     key_serializer=lambda x:dumps(x).encode('utf-8'), 
     value_serializer=lambda x:dumps(x).encode('utf-8') 
     
