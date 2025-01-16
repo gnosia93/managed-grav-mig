@@ -13,10 +13,10 @@ consumer = KafkaConsumer(
     consumer_timeout_ms=1000 
 )
 
-print('[Start] get consumer')
+start = time.time()
 
 for message in consumer:
     print(f'Topic : {message.topic}, Partition : {message.partition}, Offset : {message.offset}, Key : {message.key}, value : {message.value}')
     time.sleep(0.5)
 
-print('[End] get consumer')
+print('[Done]:', time.time() - start)
