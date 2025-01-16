@@ -17,6 +17,6 @@ start = time.time()
 
 for message in consumer:
     print(f'Topic : {message.topic}, Partition : {message.partition}, Offset : {message.offset}, Key : {message.key}, value : {message.value}')
-    time.sleep(0.5)
+    time.sleep(1)
 
 print('[Done]:', time.time() - start)
