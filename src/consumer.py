@@ -1,8 +1,9 @@
 from kafka import KafkaConsumer
 from json import loads
+import time
 
 consumer = KafkaConsumer(
-    'topic2',
+    'grav-mig-topic',
     bootstrap_servers=[ <KAFKA-BROKERS> ], 
     auto_offset_reset='earliest', 
     enable_auto_commit=True, # 오프셋 자동 커밋 여부
@@ -16,5 +17,6 @@ print('[Start] get consumer')
 
 for message in consumer:
     print(f'Topic : {message.topic}, Partition : {message.partition}, Offset : {message.offset}, Key : {message.key}, value : {message.value}')
+    time.sleep(0.5)
 
 print('[End] get consumer')
