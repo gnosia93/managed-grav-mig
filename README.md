@@ -21,6 +21,7 @@
 
 ### Open Search ###
 
+* [OpenSearch 프로비저닝 하기](https://github.com/gnosia93/managed-grv-mig/blob/main/tutorial/1.opensearch-provision.md)
 
 
 
