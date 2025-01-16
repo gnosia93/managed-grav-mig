@@ -2,8 +2,8 @@ from kafka import KafkaConsumer
 from json import loads
 
 consumer = KafkaConsumer(
-    'topic2', # 토픽명
-    bootstrap_servers=['localhost:9092'], 
+    'topic2',
+    bootstrap_servers=[ <KAFKA-BROKERS> ], 
     auto_offset_reset='earliest', 
     enable_auto_commit=True, # 오프셋 자동 커밋 여부
   #  group_id='test-group', # 컨슈머 그룹 식별자
