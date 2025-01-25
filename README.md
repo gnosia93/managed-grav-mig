@@ -23,7 +23,7 @@
 
 * [1. OpenSearch 프로비저닝 하기](https://github.com/gnosia93/managed-grv-mig/blob/main/tutorial/1.opensearch-provision.md)
 * [2. 성능 테스트 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/2.opensearch-perf.md)
-* [2. 마이그레이션 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/2.opensearch-mig.md)
+* [3. 마이그레이션 하기](https://github.com/gnosia93/database-on-grv/blob/main/tutorial/3.opensearch-mig.md)
 
 ### DocumentDB ###
 
